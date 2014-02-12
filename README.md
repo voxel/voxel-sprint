@@ -1,0 +1,6 @@
+# voxel-sprint
+
+## License
+
+MIT
+
