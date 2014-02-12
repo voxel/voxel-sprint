@@ -9,12 +9,15 @@ module.exports.pluginInfo = {
 
 function SprintPlugin(game, opts) {
   this.game = game;
-
   if (!this.game.buttons.down) throw new Error('voxel-sprint requires game.buttons as kb-bindings');
+
+  this.walkMaxSpeed = opts.walkMaxSpeed || 0.0056;
+  this.runMaxSpeed = opts.runMaxSpeed || 0.0112;
 
   this.counter = 0;
   this.forwardUpAfterFirstDown = false;
   this.first = Date.now();
+  this.sprinting = false;
 
   this.enable();
 }
@@ -32,8 +35,7 @@ SprintPlugin.prototype.enable = function() {
         return;
       } else {
         if (self.forwardUpAfterFirstDown) {
-          console.log('GO!');
-          // TODO
+          self.startSprint();
         }
       }
 
@@ -44,10 +46,27 @@ SprintPlugin.prototype.enable = function() {
       self.counter += 1;
     }
   });
+
+  self.game.buttons.up.on('forward', self.onForwardUp = function() {
+    if (self.sprinting) self.stopSprint();
+  });
 };
 
 SprintPlugin.prototype.disable = function() {
   this.game.buttons.down.removeListener('forward', this.onForwardDown);
+  this.game.buttons.up.removeListener('forward', this.onForwardUp);
 };
 
+
+SprintPlugin.prototype.startSprint = function() {
+  console.log('startSprint');
+  this.game.controls.walk_max_speed = this.runMaxSpeed;
+  this.sprinting = true;
+};
+
+SprintPlugin.prototype.stopSprint = function() {
+  console.log('stopSprint');
+  this.game.controls.walk_max_speed = this.walkMaxSpeed;
+  this.sprinting = false;
+};
 
