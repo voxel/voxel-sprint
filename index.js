@@ -4,12 +4,14 @@ module.exports = function(game, opts) {
   return new SprintPlugin(game, opts);
 };
 module.exports.pluginInfo = {
+  loadAfter: ['voxel-keys'],
   clientOnly: true // TODO: server-side?
 };
 
 function SprintPlugin(game, opts) {
   this.game = game;
-  if (!this.game.buttons.down) throw new Error('voxel-sprint requires game.buttons as kb-bindings');
+  this.keys = game.plugins.get('voxel-keys');
+  if (!this.keys) throw new Error('voxel-sprint requires voxel-keys plugin');
 
   this.walkMaxSpeed = opts.walkMaxSpeed || 0.0056;
   this.runMaxSpeed = opts.runMaxSpeed || 0.0112;
@@ -25,7 +27,7 @@ function SprintPlugin(game, opts) {
 SprintPlugin.prototype.enable = function() {
   var self = this;
 
-  self.game.buttons.down.on('forward', self.onForwardDown = function() {
+  self.keys.down.on('forward', self.onForwardDown = function() {
     console.log('forward',self.counter,self.forwardUpAfterFirstDown,self.first);
     // logic based on voxel-fly - TODO: refactor as general multi-keypress functionality?
     if (self.counter === 1) {
@@ -47,14 +49,14 @@ SprintPlugin.prototype.enable = function() {
     }
   });
 
-  self.game.buttons.up.on('forward', self.onForwardUp = function() {
+  self.keys.up.on('forward', self.onForwardUp = function() {
     if (self.sprinting) self.stopSprint();
   });
 };
 
 SprintPlugin.prototype.disable = function() {
-  this.game.buttons.down.removeListener('forward', this.onForwardDown);
-  this.game.buttons.up.removeListener('forward', this.onForwardUp);
+  this.keys.down.removeListener('forward', this.onForwardDown);
+  this.keys.up.removeListener('forward', this.onForwardUp);
 };
 
 
