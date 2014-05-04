@@ -1,7 +1,7 @@
 {
   "name": "voxel-sprint",
   "description": "double-tap to sprint (voxel.js plugin)",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "sprint.js",
   "repository": {
     "type": "git",
@@ -12,7 +12,6 @@
     "sprint",
     "running"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "license": "MIT"
 }
