@@ -28,7 +28,6 @@ SprintPlugin.prototype.enable = function() {
   var self = this;
 
   self.keys.down.on('forward', self.onForwardDown = function() {
-    console.log('forward',self.counter,self.forwardUpAfterFirstDown,self.first);
     // logic based on voxel-fly - TODO: refactor as general multi-keypress functionality?
     if (self.counter === 1) {
       if (Date.now() - self.first > 300) {
@@ -61,13 +60,11 @@ SprintPlugin.prototype.disable = function() {
 
 
 SprintPlugin.prototype.startSprint = function() {
-  console.log('startSprint');
   this.game.controls.walk_max_speed = this.runMaxSpeed;
   this.sprinting = true;
 };
 
 SprintPlugin.prototype.stopSprint = function() {
-  console.log('stopSprint');
   this.game.controls.walk_max_speed = this.walkMaxSpeed;
   this.sprinting = false;
 };
