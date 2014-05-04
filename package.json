@@ -2,6 +2,7 @@
   "name": "voxel-sprint",
   "description": "double-tap to sprint (voxel.js plugin)",
   "version": "0.0.1",
+  "main": "sprint.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:deathcap/voxel-sprint.git"
